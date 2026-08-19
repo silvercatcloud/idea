@@ -7,6 +7,8 @@ enum class CardCategory {
     TERMINOLOGY,
     MOVIE,
     BOOK,
-    POETRY,
     PERSON,
+    ECONOMICS,
+    POLITICS,
+    HISTORY,
 }

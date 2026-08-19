@@ -35,7 +35,6 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.silvercat.sparkcards.R
 import com.silvercat.sparkcards.data.CardRepository
 import kotlinx.coroutines.launch
-import kotlin.math.abs
 
 @Composable
 fun HomeScreen(repository: CardRepository) {
@@ -54,6 +53,7 @@ fun HomeScreen(repository: CardRepository) {
                 onFlip = viewModel::onFlip,
                 onToggleFavorite = viewModel::onToggleFavorite,
                 onSwipeNext = viewModel::onSwipeNext,
+                onSwipePrevious = viewModel::onSwipePrevious,
             )
             HomeUiState.CyclePassComplete -> CyclePassCompleteContent(onRestart = viewModel::onRestartCycle)
             HomeUiState.NoCategoriesEnabled -> NoCategoriesContent()
@@ -82,6 +82,7 @@ private fun SwipeableCard(
     onFlip: () -> Unit,
     onToggleFavorite: () -> Unit,
     onSwipeNext: () -> Unit,
+    onSwipePrevious: () -> Unit,
 ) {
     val scope = rememberCoroutineScope()
     val offsetX = remember { Animatable(0f) }
@@ -100,12 +101,18 @@ private fun SwipeableCard(
                     detectHorizontalDragGestures(
                         onDragEnd = {
                             scope.launch {
-                                if (abs(offsetX.value) > swipeThreshold) {
-                                    offsetX.animateTo(if (offsetX.value > 0) 1200f else -1200f)
-                                    offsetX.snapTo(0f)
-                                    onSwipeNext()
-                                } else {
-                                    offsetX.animateTo(0f)
+                                when {
+                                    offsetX.value > swipeThreshold -> {
+                                        offsetX.animateTo(1200f)
+                                        offsetX.snapTo(0f)
+                                        onSwipeNext()
+                                    }
+                                    offsetX.value < -swipeThreshold -> {
+                                        offsetX.animateTo(-1200f)
+                                        offsetX.snapTo(0f)
+                                        onSwipePrevious()
+                                    }
+                                    else -> offsetX.animateTo(0f)
                                 }
                             }
                         },
@@ -140,7 +147,7 @@ private fun SwipeableCard(
         Button(
             onClick = {
                 scope.launch {
-                    offsetX.animateTo(-1200f)
+                    offsetX.animateTo(1200f)
                     offsetX.snapTo(0f)
                     onSwipeNext()
                 }

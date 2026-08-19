@@ -24,10 +24,10 @@ class SettingsDataStoreTest {
     fun `disabling a category removes it from the enabled set`() = runTest {
         val settings = SettingsDataStore(FakePreferencesDataStore())
 
-        settings.setCategoryEnabled(CardCategory.POETRY, enabled = false)
+        settings.setCategoryEnabled(CardCategory.HISTORY, enabled = false)
 
         val enabled = settings.enabledCategories.first()
-        assertTrue(CardCategory.POETRY !in enabled)
+        assertTrue(CardCategory.HISTORY !in enabled)
         assertEquals(CardCategory.entries.size - 1, enabled.size)
     }
 
@@ -35,8 +35,8 @@ class SettingsDataStoreTest {
     fun `re-enabling a category adds it back`() = runTest {
         val settings = SettingsDataStore(FakePreferencesDataStore())
 
-        settings.setCategoryEnabled(CardCategory.POETRY, enabled = false)
-        settings.setCategoryEnabled(CardCategory.POETRY, enabled = true)
+        settings.setCategoryEnabled(CardCategory.HISTORY, enabled = false)
+        settings.setCategoryEnabled(CardCategory.HISTORY, enabled = true)
 
         val enabled = settings.enabledCategories.first()
         assertEquals(CardCategory.entries.toSet(), enabled)

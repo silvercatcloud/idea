@@ -16,8 +16,10 @@ fun categoryLabelRes(category: CardCategory): Int = when (category) {
     CardCategory.TERMINOLOGY -> R.string.category_terminology
     CardCategory.MOVIE -> R.string.category_movie
     CardCategory.BOOK -> R.string.category_book
-    CardCategory.POETRY -> R.string.category_poetry
     CardCategory.PERSON -> R.string.category_person
+    CardCategory.ECONOMICS -> R.string.category_economics
+    CardCategory.POLITICS -> R.string.category_politics
+    CardCategory.HISTORY -> R.string.category_history
 }
 
 @Composable

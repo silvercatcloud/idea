@@ -39,7 +39,7 @@ class CardContentSourceTest {
         val file = findCardsJson()
         val cards = CardContentSource.parse(file.readText())
 
-        assertEquals(150, cards.size)
+        assertEquals(200, cards.size)
 
         val ids = cards.map { it.id }
         assertEquals("card ids must be unique", ids.size, ids.toSet().size)
@@ -54,8 +54,10 @@ class CardContentSourceTest {
         assertEquals(40, counts[CardCategory.TERMINOLOGY])
         assertEquals(30, counts[CardCategory.MOVIE])
         assertEquals(30, counts[CardCategory.BOOK])
-        assertEquals(25, counts[CardCategory.POETRY])
         assertEquals(25, counts[CardCategory.PERSON])
+        assertEquals(25, counts[CardCategory.ECONOMICS])
+        assertEquals(25, counts[CardCategory.POLITICS])
+        assertEquals(25, counts[CardCategory.HISTORY])
     }
 
     /** Unit tests run with the module dir as the working dir; assets aren't on the JVM classpath. */
